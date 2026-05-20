@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joel & Ella | Mural</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-normal: linear-gradient(135deg, #1a1c23, #0d0e12);
+        }
+
+        body {
+            background: var(--bg-normal);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 40px 20px 120px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: white;
+            transition: background 1s ease;
+        }
+
+        body.revelacion-activa { overflow: hidden; }
+        body.revelacion-activa header, 
+        body.revelacion-activa .grid-cartas, 
+        body.revelacion-activa .heart-bg { opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
+
+        .heart-bg { position: fixed; top: -10%; color: rgba(255,255,255,0.4); font-size: 15px; user-select: none; z-index: 1; animation: fall linear forwards; transition: opacity 0.5s; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+        header { text-align: center; margin-bottom: 40px; z-index: 2; transition: opacity 0.8s ease; }
+        h1 { font-family: 'Cinzel Decorative', serif; font-size: 3.2rem; margin: 0; text-shadow: 0 4px 15px rgba(0,0,0,0.6); letter-spacing: 2px; }
+        .subtitle { font-family: 'Cinzel', serif; color: rgba(255, 255, 255, 0.8); letter-spacing: 4px; text-transform: uppercase; font-size: 0.85rem; margin-top: 10px; }
+        
+        .timer-box { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(8px); padding: 12px 28px; border-radius: 30px; font-weight: 400; color: rgba(255, 255, 255, 0.95); margin-top: 25px; border: 1px solid rgba(255, 255, 255, 0.25); display: inline-block; font-family: 'Poppins', sans-serif; }
+
+        .grid-cartas { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 30px; max-width: 1000px; width: 100%; margin-top: 20px; z-index: 2; transition: opacity 0.8s ease; }
+
+        .sobre-card {
+            background-color: rgba(255,255,255,0.08); background-size: cover; background-position: center;
+            border-radius: 20px; height: 380px; position: relative; overflow: hidden;
+            transition: transform 0.4s ease, border-color 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 15px 35px rgba(0,0,0,0.4); cursor: pointer;
+        }
+        .sobre-card:hover { transform: translateY(-8px); border-color: rgba(255,255,255,0.6); }
+
+        .sobre-content-overlay { position: absolute; bottom: 0; left: 0; width: 100%; height: 45%; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 25px; box-sizing: border-box; }
+        .sobre-titulo { font-family: 'Cinzel', serif; color: white; font-weight: 700; font-size: 1.2rem; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* Interfaz: Liquid Glass con Aura de Colores estilo Gemini (Rojo, Negro, Rosado) */
+        .escenario-revelacion { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh; 
+            z-index: 99; 
+            flex-direction: column;
+            align-items: center; 
+            justify-content: flex-start; 
+            padding: 60px 20px; 
+            box-sizing: border-box; 
+            opacity: 0; 
+            transition: opacity 0.6s ease; 
+            overflow-y: auto; 
+            -webkit-overflow-scrolling: touch;
+            background: rgba(10, 10, 12, 0.7);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+        }
+        .escenario-revelacion.mostrar { display: flex; opacity: 1; }
+        
+        .contenido-revelado { 
+            max-width: 650px; 
+            width: 100%; 
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 25px; 
+            padding: 40px 30px;
+            box-sizing: border-box;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 
+                0 0 40px rgba(230, 57, 70, 0.2),    
+                0 0 60px rgba(255, 182, 193, 0.25), 
+                inset 0 0 20px rgba(0, 0, 0, 0.6);  
+            position: relative;
+            animation: auroraGlow 6s infinite alternate ease-in-out;
+        }
+
+        @keyframes auroraGlow {
+            0% {
+                box-shadow: 0 0 35px rgba(230, 57, 70, 0.25), 0 0 50px rgba(255, 182, 193, 0.2), inset 0 0 20px rgba(0,0,0,0.7);
+                border-color: rgba(230, 57, 70, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 55px rgba(255, 182, 193, 0.35), 0 0 70px rgba(230, 57, 70, 0.15), inset 0 0 15px rgba(0,0,0,0.5);
+                border-color: rgba(255, 182, 193, 0.4);
+            }
+            100% {
+                box-shadow: 0 0 40px rgba(230, 57, 70, 0.3), 0 0 65px rgba(255, 182, 193, 0.3), inset 0 0 25px rgba(0,0,0,0.8);
+                border-color: rgba(255, 255, 255, 0.2);
+            }
+        }
+        
+        .img-revelada { max-width: 90%; max-height: 40vh; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); opacity: 0; transform: scale(0.95); transition: all 1s ease 0.5s; }
+        .img-revelada.animar { opacity: 1; transform: scale(1); }
+
+        .texto-maquina {
+            font-family: 'Cinzel', serif; 
+            color: #ffffff; 
+            font-size: 1.35rem; 
+            line-height: 1.7; 
+            text-align: center; 
+            max-width: 95%;
+            letter-spacing: 2px; 
+            white-space: pre-wrap; 
+            word-break: break-word;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-cerrar-revelacion { background: rgba(255, 255, 255, 0.07); color: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.25); backdrop-filter: blur(5px); padding: 12px 30px; border-radius: 20px; cursor: pointer; margin-top: 15px; transition: all 0.3s; opacity: 0; pointer-events: none; font-family: 'Poppins', sans-serif; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .btn-cerrar-revelacion.mostrar { opacity: 1; pointer-events: auto; }
+        .btn-cerrar-revelacion:hover { color: white; border-color: rgba(255,182,193,0.6); background: rgba(255,255,255,0.15); box-shadow: 0 0 15px rgba(255,182,193,0.3); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="tituloPrincipal">Nuestra Historia</h1>
+        <div class="subtitle">Mural de Momentos Interactivos</div>
+        <div class="timer-box" id="contador">Calculando...</div>
+    </header>
+
+    <div class="grid-cartas" id="contenedorCartas"></div>
+
+    <div class="escenario-revelacion" id="escenarioRevelacion">
+        <div class="contenido-revelado">
+            <img src="" id="revelarImagen" class="img-revelada">
+            <div id="textoEfectoMaquina" class="texto-maquina"></div>
+            <button class="btn-cerrar-revelacion" id="btnCerrarRev" onclick="cerrarRevelacion()">Volver al Mural</button>
+        </div>
+    </div>
+
+    <script>
+        // =================================================================
+        // 🛠️ CONFIGURACIÓN DE TUS RECUERDOS (EDITA ESTA SECCIÓN)
+        // =================================================================
+        
+        // 1. FECHA DE ANIVERSARIO: Año, Mes - 1 (Marzo es 2), Día, Hora, Minutos
+        // Lo puse en 24 de marzo del 2023 por tu bonita historia del texto
+        const startDate = new Date(2023, 2, 24, 14, 0, 0); 
+
+        // 2. TÍTULO DE TU WEB
+        const tituloWeb = "FELIIIZ ANIVERASARIOO MI AMMMOORRRR";
+
+        // 3. LINK DE LA FOTO DE FONDO PRINCIPAL
+        const fondoWeb = "https://i.postimg.cc/5tZpfm8W/74a5d279-61a0-4cd1-8423-9a5f7185f5dc.png"; 
+
+        // 4. LISTA DE TUS CARTAS INTERACTIVAS
+        const misCartas = [
+            { 
+                titulo: "DESDE QUE TE VIII", 
+                texto: "Mi amooor recuerdas como fue el primer dia que nos vimos?? recuerdas ese 24/03/2023?? se que antes nos vimos pero sin tanta importancia...pero ahora que lo pienso bien la primera vez que te vi y senti algo por ti fue ese dia fue un viernes donde estaba todo sudado xq tenia ept y jugue futbol con el uniforme... ese dia recuerdo que deseaba que tu vivieras cerca de mi casa, deseaba que estuvieras aunque sea un poco cerca, recuerdo que cuando te bajaste enfrente de tu casa me gano la alegria, xq sabia que te veria mas veces, sabia que bajarias en los carros del sillar, sabia que no subirias en los Royal, sabia que tendria aunque sea la minima oportunidad de apreciarte, me sentia ganador aun sin haber ganado... desde ese dia intente de todo por verte de nuevo, hize cosas vergonzosas que no me importaron xq el objetivo era mejor, eras tu.", 
+                img: "https://i.postimg.cc/MGX2PRkw/1Y.jpg" 
+            },
+            { 
+                titulo: "LAS COSAS QUE HIZE/HICIMOS", 
+                texto: "Amorcitoooo como te conte esa vez en la llamada llegue a hacer demasiadas cosas para poder verte aunque sea por poco tiempo, te las enumero para que las leas en orden:\n\n1. Bueno primeramente llegue a pedir tu horario para saber a que hora entrabas y a que hora salias, aunque como tu me dijiste ese horaro fue de invierno cuando entrabas tarde y jshajkdha que risaaaa\n2. Cuando super tu hora de salida me hiba al puente o al mall para pasar el rato y llegar a tiempo para verte recuerdo que solo lo hacia para tomar el carro vacio\n3. Tambien en las mañanas esperaba el A1(carro naranja) xq sabia que tu hibas en ese carro en la mañana y queria tambien verte por las mañanas y no me importaba si llegaba tarde xq valia completamente la pena verte\n4. llegue a grabarme los dias que hibas con buso para nose que pero lo hize xq me daban ganas\n5. imaginaba que te hablaba o bueno creaba escenarios donde hablabamosss\n6. recuerdo que sabia que te sentabas en esos asientos detras de el conductor y me sentaba en la segunda fila para verte jshdajdh y odiaba a los carros que no tenian esos asientos detras del conductor porque no te podria ver, tambien me molestaba cuando te sentabas en la parte de adelante\n7. me gustaba cuando por azares del destino nos llegabamos a sentar juntos era como algo bonito que sentia que era muy unicoo\n8. tambien una vez llegue a hacer parar el carro cuando veia que venias, el carro se hiba con dos asientos vacios y le dije a el conductor que te esperara jajajas ahi si se me fue la timidez om\n9. Recuerdo que tu eras lo que siempre quize, deseaba...anhelaba algun dia hablarte y concoerte mejor queria que fueras mi pareja y ahora...ahora lo somos\n10. Cuando te pedi un sol y no te lo devolvi por muuucho tiempo, esa vez me latia el corazon a mil y no sabia ni que decirte, estaba nerviosisimooo, pedirte ese sol y no devolvertelo fue algo planeado por el destino.. yo sabia que tenia plata pero verte en el A1 sola en la parte de atras en una tarde soleada... el carro vacio y advancing lento, sabia que esa era mi oportunidad y no la desaproveche, ese dia perdi un poco de todo mi miedo, joder lo recuerdoo lo recuerdo como algo bonito jsjdadjh\n11. te amo muchooo y recuerdo cuando me contaste que tambien hiciste muchas cosas para que nos veamos como que tambien aveces te demorabas y sabias que carro tomar para que nos encontremos, eso me recuerda a que dijiste que grababas videos despues de cada vez que nos veiamos JAJASJA bueno no lo niego yo cantaba canciones y me imaginaba cantandotelas jashsahjsa, AMORCITOO TE AMO MUCHOTEEE Y ERES LA MEJORRR, TE AMO MI NIÑA PRECIOSA", 
+                img: "https://i.postimg.cc/jqBHLrdV/Whats-App-Image-2026-05-19-at-11-10-50-PM.jpg" 
+            },
+            { 
+                titulo: "¿POR QUE ME GUSTASTE?", 
+                texto: "Bueno mi amor para serte sincero me gustaste desde el inicio, desde que vi esos hermosos ojos, desde que vi ese cabello corto fack. te cuentooo desde pequeño tuve unos gustos extremos con las niñas que tenian el cabello corto, pero tuuu tu eres la que se gano el premio a la mas hermosa dentro de mi corazon, desde que te vi por primera vez supe que eras la persona indicada, tenias todo lo que deseaba en una chica, cabello corto cara bonita, ojos hermosos, cuerpo perfecto y crjo mejor ya no hablemos de esto que pasan cositas en mi sisisi, TE AMO MUCHOTE MI VIDA y eres la unica persona que en verdad me gusta la que en verda desee desde hace mucho tiempo, TE AMO MIERCOLES TE AMOOOO", 
+                img: "https://i.postimg.cc/xdjHWfgP/Whats-App-Image-2026-05-19-at-11-14-56-PM.jpg" 
+            },
+            { 
+                titulo: "MII YULEYMI", 
+                texto: "TUUU, tu amorcito mio eres lo mejor que me ha podido pasar, literalmente eres lo mejoooorrr, me gusta tu forma de ser, me gusta cada parte de ti, me encanta como te comportas, me fascina tu forma de pensar, jodeeerr me encantaaas eres tan maravillosa amorcitooo, te amo muchoooo, desde que empezamos a hablar supe que eras diferente a las demas, tu no eres igual a las demas 'chicas' si asi se les puede llamar, tu si piensas , tu si tienes criterio y es tu forma de pensar lo que tambien me llego a gustar de ti, me gusta como razonas ante diferentes situaciones, nosotros fuimos hechos el uno para el otro, nos complementamos y demasiado amorcito, agradezco al destino de haberte puesto en mi camino, la verdad no me imagino una vida sin ti, no me la imagino, desde que tu llegaste todo fue mejor todo fue mejorando, es como si tu hubiese prendido en mi esa chispa de mejora..de motivacion, me ayudaste demasiado amorcito y aunque no lo creas tu simple presencia me sirvio un monton, te lo agradezzco y agradezco cada dia de tenerte y que seas mi enamorada", 
+                img: "https://i.postimg.cc/rpqzKfr2/Gemini-Generated-Image-71akis71akis71ak.png" 
+            },
+            { 
+                titulo: "100 COSAS QUE ME GUSTAN DE TIII", 
+                texto: "1. ME GUSTAN TU SONRISA\n2. ME GUSTA COMO TE RIES\n3. ME FACINAN TUS OJOS\n4. ME GUSTA TU VOOOZ\n5. ME GUSTA TU CABELLO MI AMOR\n6. ME GUSTAN TUS ABRAZOS\n7. ME GUSTA LA FORMA EN LA QUE ME MIRAS\n8. ME GUSTA TU PERSONALIDADD\n9. ME GUSTA LO INTELIGENTE QUE ERESS\n10. AWW ME GUSTA CUANDO TE PONES TIERNA\n11. ME GUSTA TU HUMOOOR\n12. ME GUSTA QUE SEAS SINCERA\n13. QUE ME SEAS LEAL...ESO ME ENCANTA\n14. ME GUSTA CUANDO ME APOYAS\n15. ME GUSTA TU PACIENCIA HACIA MI\n16. ME GUSTA TU OLOR, ME GUSTA COMO HUELE TU PERFUME\n17. TU FORMA DE HABLAR\n18. ME GUSTA EL CARIÑO QUE ME DASS\n19. ME GUSTA QUE ME TENGAS CONFIANZA\n20. LA ENERGIA CON LA QUE ME HABLAS CADA DIA\n21. ME GUSTA LO CREATIVA QUE ERES\n22. CUANDO ME ESCUCHAS\n23. LOS PEQUEÑOS DETALLES QUE ME DASSS\n24. ME GUSTA TU FORMA DE AMAR\n25. ME GUSTA COMO ME ACARICIAS\n26. ME GUSTAN TUS GUSTOS\n27. LO AUTENTICA QUE ERES\n28. ME GUSTA TU COMPAÑIA\n29. TU DULZURA\n30. TU MADUREZ\n31. TU HUMILDAD\n32. ME ENCANTA TU LADO INFANTILL SJJSAJ\n33. ME GUSTA QUE SEAS HONESTA\n34. TU VALENTIAA\n35. TAMBIEN ME GUSTA TU EMPATIA\n36. UFF ESA MIRADA PROFUNDA\n37. ME GUSTA TU PRECENCIAA\n38. TU INOCENCIA\n39. ME GUSTA QUE SEAS RESPETUOSA\n40. ME GUSTA TU CORAZOON\n41. T LADO ROMANTICO\n42. TU CARIÑO SINCERO\n43. TU ENERGIA POSITIVA\n44. TU LADO TIMIDO\n45. ME GUSTA COMO ME DAS PAZ\n46. LA FORMA COMO ME LLAMAS\n47. TU FORMA DE ABRAZARR\n48. TU FORMA DE CUIDARME\n49. LA FORMA EN LA QUE ME EXTRAÑAS\n50. COMO TE EMOCIONAS AL VERME\n51. TU MANERA DE ANIMARME\n52. COMO ME SORPRENDES\n53. COMO HACES QUE CAMBIE MI DIA SOLO CON APARECER\n54. COMO ME HACES SENTIR COMPLETO\n55. TU FORMA DE CAMINAR\n56. TU MANERA DE ESCRIBIR\n57. COMO DUERMES(aunque solo me lo hayas dicho y no te haya visto)\n58. COMO TE RIES CONMIGO\n59. LA FORMA EN COMO TE PREOCUPAS POR MI\n60. COMO ME ENTIENDES\n61. ME GUSTA TU MANERA DE MOTIVARME\n62. LA FORMA EN COMO ME ACOMPAÑAS\n63. COMO ME HACES SENTIR ESPECIAL\n64. ME GUSTA COMO ME CONCIENTES\n65. ME GUSTA COMO ME ACARICIAS\n66. CUANDO ME ABRAZAS FUERTEE\n67. COMO DEMUESTRAS QUE ME AMAS\n68. COMO TE HECHAS EN MI HOMBRO\n69. TU FORMA DE HACERME FELIZ\n70. COMO ME CUENTAS TODO LO QUE HICISTE\n71. COMO TE DUERMES SIN AVISAR\n72. COMO TE ENOJAS DE BROMA CONMIGO\n73. COMO TE PONES CELOSAAA\n74. COMO HABLAS SOBRE MII\n75. COMO HACES QUE ME RIA\n76. CUANDO ME CALMAS\n77. LOS MENSAJES LARGOS DICIENDO QUE ME AMAS\n78. ME GUSTA CUANDO ENVIAS VIDEOS\n79. ME GUSTA TU FORMA DE CONFIAR EN MI\n80. LA MANERA EN COMO HACES ESPECIALES MOMENTOS SIMPLES\n81. COMO ME MANDAS AUDIOS MOTIVANDOME\n82. COMO ME HACES ENTIR VIVOOO\n83. CUANDO ME DEDICAS TIEMPO\n84. COMO ME DEMUESTRAS INTERES\n85. LA FORMA EN LA QUE ME HACES SENTIR IMPORTANTE\n86. CUANDO ME ESCUCHAS ATENTAMENTE\n87. COMO ME ALEGRAS EL DIAAA\n88. CUANDO ME HACES SENTIR BIENN\n89. COMO ME SACAS TEMA DE CONVERSACION\n90. LA FORMA EN COMO TE EMOCIONAS CUANDO NOS VEMOOOSS\n91. COMO ME PPIDES LAS COSAS\n92. CUANDO CAMINAMOS JUNTOS\n93. CUANDO ESCUCHAMOS MUSICAA\n94. LA MANERA EN COMO TE EXPRESAS\n95. CUANDO ACEPTAS ALGO QUE HICISTE MAL\n96. CUANDO PIDES PERDON SINCERAMENTE\n97. CUANDO COMPARTIMOS MOMENTOS UNICOS\n98. COMO ME ACOMPAÑAS EN SILENCIO\n99. COMO HACES QUE SIENTA TODO ESTO POR TI\n100. ME GUSTA EL SIMPLE HECHO DE QUE SEAS TU", 
+                img: "https://i.postimg.cc/T25m8HjJ/Whats-App-Image-2026-05-19-at-11-15-11-PM.jpg" 
+            }
+        ];
+
+        // =================================================================
+        // 🚫 NO MODIFICAR NADA DE AQUÍ ABAJO
+        // =================================================================
+        
+        document.getElementById('tituloPrincipal').innerText = tituloWeb;
+        let typingInterval = null;
+
+        function cambiarFondo(url) {
+            if(url && url.trim() !== "") {
+                document.body.style.backgroundImage = `url('${url}')`;
+                document.body.style.backgroundSize = "cover";
+            }
+        }
+
+        function renderizarCartas() {
+            const contenedor = document.getElementById('contenedorCartas');
+            contenedor.innerHTML = '';
+            misCartas.forEach((carta, index) => {
+                const card = document.createElement('div');
+                card.className = 'sobre-card';
+                if(carta.img && carta.img.trim() !== "") card.style.backgroundImage = `url('${carta.img}')`;
+                card.innerHTML = `
+                    <div class="sobre-view" onclick="iniciarRevelacion(${index})">
+                        <div class="sobre-content-overlay"><div class="sobre-titulo">${carta.titulo}</div></div>
+                    </div>
+                `;
+                contenedor.appendChild(card);
+            });
+        }
+
+        function iniciarRevelacion(index) {
+            const carta = misCartas[index];
+            const escenario = document.getElementById('escenarioRevelacion');
+            const imgElement = document.getElementById('revelarImagen');
+            const textoElement = document.getElementById('textoEfectoMaquina');
+            const btnCerrar = document.getElementById('btnCerrarRev');
+
+            document.body.classList.add('revelacion-activa');
+            escenario.classList.add('mostrar');
+            escenario.scrollTop = 0;
+            textoElement.textContent = "";
+            btnCerrar.classList.remove('mostrar');
+            clearInterval(typingInterval);
+
+            if(carta.img && carta.img.trim() !== "") {
+                imgElement.src = carta.img;
+                imgElement.style.display = "block";
+                setTimeout(() => imgElement.classList.add('animar'), 100);
+            } else {
+                imgElement.style.display = "none";
+            }
+
+            let i = 0;
+            const mensaje = carta.texto;
+            
+            setTimeout(() => {
+                typingInterval = setInterval(() => {
+                    if (i < mensaje.length) {
+                        textoElement.textContent += mensaje.charAt(i);
+                        i++;
+                        if(escenario.scrollHeight > escenario.clientHeight) {
+                            escenario.scrollTop = escenario.scrollHeight;
+                        }
+                    } else {
+                        clearInterval(typingInterval);
+                        btnCerrar.classList.add('mostrar');
+                    }
+                }, 15); // ⚡ Velocidad de las letras (15 milisegundos)
+            }, 800);
+        }
+
+        function cerrarRevelacion() {
+            clearInterval(typingInterval);
+            document.body.classList.remove('revelacion-activa');
+            document.getElementById('escenarioRevelacion').classList.remove('mostrar');
+            document.getElementById('revelarImagen').classList.remove('animar');
+            document.getElementById('textoEfectoMaquina').textContent = "";
+        }
+
+        // Contador de Tiempo
+        setInterval(() => {
+            const now = new Date();
+            let diff = now - startDate;
+            if (diff < 0) { document.getElementById('contador').innerHTML = "Cargando..."; return; }
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor((diff % 86400000) / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            document.getElementById('contador').innerHTML = `Juntos desde hace: ${d}d ${h}h ${m}m ${s}s`;
+        }, 1000);
+
+        // Lluvia de corazones roja
+        setInterval(() => {
+            if(document.body.classList.contains('revelacion-activa')) return;
+            const heart = document.createElement('div');
+            heart.classList.add('heart-bg'); heart.innerHTML = '🤍';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }, 600);
+
+        cambiarFondo(fondoWeb);
+        renderizarCartas();
+    </script>
+</body>
+</html>
