@@ -66,7 +66,7 @@
             flex-direction: column;
             align-items: center; 
             justify-content: flex-start; 
-            padding: 60px 20px; 
+            padding: 40px 20px; 
             box-sizing: border-box; 
             opacity: 0; 
             transition: opacity 0.6s ease; 
@@ -100,35 +100,20 @@
         }
 
         @keyframes auroraGlow {
-            0% {
-                box-shadow: 0 0 35px rgba(230, 57, 70, 0.25), 0 0 50px rgba(255, 182, 193, 0.2), inset 0 0 20px rgba(0,0,0,0.7);
-                border-color: rgba(230, 57, 70, 0.3);
-            }
-            50% {
-                box-shadow: 0 0 55px rgba(255, 182, 193, 0.35), 0 0 70px rgba(230, 57, 70, 0.15), inset 0 0 15px rgba(0,0,0,0.5);
-                border-color: rgba(255, 182, 193, 0.4);
-            }
-            100% {
-                box-shadow: 0 0 40px rgba(230, 57, 70, 0.3), 0 0 65px rgba(255, 182, 193, 0.3), inset 0 0 25px rgba(0,0,0,0.8);
-                border-color: rgba(255, 255, 255, 0.2);
-            }
+            0% { box-shadow: 0 0 35px rgba(230, 57, 70, 0.25), 0 0 50px rgba(255, 182, 193, 0.2), inset 0 0 20px rgba(0,0,0,0.7); border-color: rgba(230, 57, 70, 0.3); }
+            50% { box-shadow: 0 0 55px rgba(255, 182, 193, 0.35), 0 0 70px rgba(230, 57, 70, 0.15), inset 0 0 15px rgba(0,0,0,0.5); border-color: rgba(255, 182, 193, 0.4); }
+            100% { box-shadow: 0 0 40px rgba(230, 57, 70, 0.3), 0 0 65px rgba(255, 182, 193, 0.3), inset 0 0 25px rgba(0,0,0,0.8); border-color: rgba(255, 255, 255, 0.2); }
         }
         
-        .img-revelada { max-width: 90%; max-height: 40vh; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); opacity: 0; transform: scale(0.95); transition: all 1s ease 0.5s; }
-        .img-revelada.animar { opacity: 1; transform: scale(1); }
+        .img-revelada, .vid-revelado { max-width: 90%; max-height: 45vh; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); opacity: 0; transform: scale(0.95); transition: all 1s ease 0.5s; display: none; }
+        .img-revelada.animar, .vid-revelado.animar { opacity: 1; transform: scale(1); display: block; }
 
-        .texto-maquina {
-            font-family: 'Cinzel', serif; 
-            color: #ffffff; 
-            font-size: 1.35rem; 
-            line-height: 1.7; 
-            text-align: center; 
-            max-width: 95%;
-            letter-spacing: 2px; 
-            white-space: pre-wrap; 
-            word-break: break-word;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-        }
+        /* Contenedor adaptado para pantallas incrustadas (Drive/YouTube) */
+        .frame-contenedor { width: 100%; max-width: 540px; height: 320px; border-radius: 15px; overflow: hidden; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); opacity: 0; transform: scale(0.95); transition: all 1s ease 0.5s; }
+        .frame-contenedor.animar { display: block; opacity: 1; transform: scale(1); }
+        .frame-contenedor iframe { width: 100%; height: 100%; border: none; }
+
+        .texto-maquina { font-family: 'Cinzel', serif; color: #ffffff; font-size: 1.35rem; line-height: 1.7; text-align: center; max-width: 95%; letter-spacing: 2px; white-space: pre-wrap; word-break: break-word; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); }
 
         .btn-cerrar-revelacion { background: rgba(255, 255, 255, 0.07); color: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.25); backdrop-filter: blur(5px); padding: 12px 30px; border-radius: 20px; cursor: pointer; margin-top: 15px; transition: all 0.3s; opacity: 0; pointer-events: none; font-family: 'Poppins', sans-serif; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .btn-cerrar-revelacion.mostrar { opacity: 1; pointer-events: auto; }
@@ -148,27 +133,20 @@
     <div class="escenario-revelacion" id="escenarioRevelacion">
         <div class="contenido-revelado">
             <img src="" id="revelarImagen" class="img-revelada">
+            <video id="revelarVideo" class="vid-revelado" controls></video>
+            <div id="revelarFrameContenedor" class="frame-contenedor">
+                <iframe src="" id="revelarFrame" allow="autoplay"></iframe>
+            </div>
             <div id="textoEfectoMaquina" class="texto-maquina"></div>
             <button class="btn-cerrar-revelacion" id="btnCerrarRev" onclick="cerrarRevelacion()">Volver al Mural</button>
         </div>
     </div>
 
     <script>
-        // =================================================================
-        // 🛠️ CONFIGURACIÓN DE TUS RECUERDOS (EDITA ESTA SECCIÓN)
-        // =================================================================
-        
-        // 1. FECHA DE ANIVERSARIO: Año, Mes - 1 (Marzo es 2), Día, Hora, Minutos
-        // Lo puse en 24 de marzo del 2023 por tu bonita historia del texto
         const startDate = new Date(2026, 3, 21, 15, 17, 23); 
-
-        // 2. TÍTULO DE TU WEB
         const tituloWeb = "FELIIIZ ANIVERSARIIOO MI AMOOORRRR";
-
-        // 3. LINK DE LA FOTO DE FONDO PRINCIPAL
         const fondoWeb = "https://i.postimg.cc/5tZpfm8W/74a5d279-61a0-4cd1-8423-9a5f7185f5dc.png"; 
 
-        // 4. LISTA DE TUS CARTAS INTERACTIVAS
         const misCartas = [
             { 
                 titulo: "DESDE QUE TE VIII", 
@@ -177,7 +155,7 @@
             },
             { 
                 titulo: "LAS COSAS QUE HIZE/HICIMOS", 
-                texto: "Amorcitoooo como te conte esa vez en la llamada llegue a hacer demasiadas cosas para poder verte aunque sea por poco tiempo, te las enumero para que las leas en orden:\n\n1. Bueno primeramente llegue a pedir tu horario para saber a que hora entrabas y a que hora salias, aunque como tu me dijiste ese horaro fue de invierno cuando entrabas tarde y jshajkdha que risaaaa\n2. Cuando super tu hora de salida me hiba al puente o al mall para pasar el rato y llegar a tiempo para verte recuerdo que solo lo hacia para tomar el carro vacio\n3. Tambien en las mañanas esperaba el A1(carro naranja) xq sabia que tu hibas en ese carro en la mañana y queria tambien verte por las mañanas y no me importaba si llegaba tarde xq valia completamente la pena verte\n4. llegue a grabarme los dias que hibas con buso para nose que pero lo hize xq me daban ganas\n5. imaginaba que te hablaba o bueno creaba escenarios donde hablabamosss\n6. recuerdo que sabia que te sentabas en esos asientos detras de el conductor y me sentaba en la segunda fila para verte jshdajdh y odiaba a los carros que no tenian esos asientos detras del conductor porque no te podria ver, tambien me molestaba cuando te sentabas en la parte de adelante\n7. me gustaba cuando por azares del destino nos llegabamos a sentar juntos era como algo bonito que sentia que era muy unicoo\n8. tambien una vez llegue a hacer parar el carro cuando veia que venias, el carro se hiba con dos asientos vacios y le dije a el conductor que te esperara jajajas ahi si se me fue la timidez om\n9. Recuerdo que tu eras lo que siempre quize, deseaba...anhelaba algun dia hablarte y concoerte mejor queria que fueras mi pareja y ahora...ahora lo somos\n10. Cuando te pedi un sol y no te lo devolvi por muuucho tiempo, esa vez me latia el corazon a mil y no sabia ni que decirte, estaba nerviosisimooo, pedirte ese sol y no devolvertelo fue algo planeado por el destino.. yo sabia que tenia plata pero verte en el A1 sola en la parte de atras en una tarde soleada... el carro vacio y advancing lento, sabia que esa era mi oportunidad y no la desaproveche, ese dia perdi un poco de todo mi miedo, joder lo recuerdoo lo recuerdo como algo bonito jsjdadjh\n11. te amo muchooo y recuerdo cuando me contaste que tambien hiciste muchas cosas para que nos veamos como que tambien aveces te demorabas y sabias que carro tomar para que nos encontremos, eso me recuerda a que dijiste que grababas videos despues de cada vez que nos veiamos JAJASJA bueno no lo niego yo cantaba canciones y me imaginaba cantandotelas jashsahjsa, AMORCITOO TE AMO MUCHOTEEE Y ERES LA MEJORRR, TE AMO MI NIÑA PRECIOSA", 
+                texto: "Amorcitoooo como te conte esa vez in la llamada llegue a hacer demasiadas cosas para poder verte aunque sea por poco tiempo, te las enumero para que las leas en orden:\n\n1. Bueno primeramente llegue a pedir tu horario para saber a que hora entrabas y a que hora salias, aunque como tu me dijiste ese horaro fue de invierno cuando entrabas tarde y jshajkdha que risaaaa\n2. Cuando super tu hora de salida me hiba al puente o al mall para pasar el rato y llegar a tiempo para verte recuerdo que solo lo hacia para tomar el carro vacio\n3. Tambien en las mañanas esperaba el A1(carro naranja) xq sabia que tu hibas en ese carro en la mañana y queria tambien verte por las mañanas y no me importaba si llegaba tarde xq valia completamente la pena verte\n4. llegue a grabarme los dias que hibas con buso para nose que pero lo hize xq me daban ganas\n5. imaginaba que te hablaba o bueno creaba escenarios donde hablabamosss\n6. recuerdo que sabia que te sentabas en esos asientos detras de el conductor y me sentaba en la segunda fila para verte jshdajdh y odiaba a los carros que no tenian esos asientos detras del conductor porque no te podria ver, tambien me molestaba cuando te sentabas en la parte de adelante\n7. me gustaba cuando por azares del destino nos llegabamos a sentar juntos era como algo bonito que sentia que era muy unicoo\n8. tambien una vez llegue a hacer parar el carro cuando veia que venias, el carro se hiba con dos asientos vacios y le dije a el conductor que te esperara jajajas ahi si se me fue la timidez om\n9. Recuerdo que tu eras lo que siempre quize, deseaba...anhelaba algun dia hablarte y concoerte mejor queria que fueras mi pareja y ahora...ahora lo somos\n10. When te pedi un sol y no te lo devolvi por muuucho tiempo, esa vez me latia el corazon a mil y no sabia ni que decirte, estaba nerviosisimooo, pedirte ese sol y no devolvertelo fue algo planeado por el destino.. yo sabia que tenia plata pero verte en el A1 sola en la parte de atras en una tarde soleada... el carro vacio y advancing lento, sabia que esa era mi oportunidad y no la desaproveche, ese dia perdi un poco de todo mi miedo, joder lo recuerdoo lo recuerdo como algo bonito jsjdadjh\n11. te amo muchooo y recuerdo cuando me contaste que tambien hiciste muchas cosas para que nos veamos como que tambien aveces te demorabas y sabias que carro tomar para que nos encontremos, eso me recuerda a que dijiste que grababas videos despues de cada vez que nos veiamos JAJASJA bueno no lo niego yo cantaba canciones y me imaginaba cantandotelas jashsahjsa, AMORCITOO TE AMO MUCHOTEEE Y ERES LA MEJORRR, TE AMO MI NIÑA PRECIOSA", 
                 img: "https://i.postimg.cc/jqBHLrdV/Whats-App-Image-2026-05-19-at-11-10-50-PM.jpg" 
             },
             { 
@@ -197,7 +175,7 @@
             },
             { 
                 titulo: "EL INICIO", 
-                texto: "hola mi amorr recuerdas ese primer dia que hablamos?? recuerdo que te escribi el 20 de marzo jashdjahd y tu no respondiste xq eres una dormilona, desde el inicio fuiste una dormilona mi amor que mal ah, fue la coincidencia mas linda del mundo.\n\nBueno te lo cuento si? Yo estaba que buscaba tu numero, queria hablarte pero no sabia como, recuerdo que no sabia tu numero, no te tenia agregada y yo estaba desesperado, pero no lo encontre y eso fue dos semanas antes de que iniciaran las clases.\n\nDespues lo deje pasar y pues en uno de esos momento donde andaba eliminando todo de mi wasap y agregando a todos para que estuviera ordenadito, vi un numero era un numero que recuerde veia mis estados y decia quien sera y pues al inicio pense que eras uno de mis excompañeros de las clases de ingles, despues pense que eras alguien del monitoreo, y al final dije que seria una persona al azar y no le meti importancia, por eso si recuerdas dije 'te tengo agregado' xq en ese momento no sabia si eras chic@ kshdajhdasjh.\n\nEse dia lo recordare siempre porque fue el inicio de nuestra tan bonita historia,,,,,,", 
+                texto: "hola mi amorr recuerdas ese primer dia que hablamos?? recuerdo que te escribi el 20 de marzo jashdjahd y tu no respondiste xq eres una dormilona, desde el inicio fuiste una dormilona mi amor que mal ah, fue la coincidencia mas linda del mundo.\n\nBueno te lo cuento si? Yo estaba que buscaba tu numero, queria hablarte pero no sabia como, recuerdo que no sabia tu numero, no te tenia agregada y yo estaba desesperado, pero no lo encontre y eso fue dos semanas antes de que iniciaran las clases.\n\nDespues lo deje pasar y pues en uno de esos momento donde andaba eliminando todo de mi wasap y agregando a todos para que estuviera ordenadito, vi un numero era un numero que recuerde veia mis estados y decia quien sera y pues al inicio pense que eras uno de mis excompañeros de las clases de ingles, despues pense que eras alguien del monitoreo, y al final dije que seria una persona al azar y no le meti importancia, por eso si recuerdas dije 'te tengo agregado' xq in ese momento no sabia si eras chic@ kshdajhdasjh.\n\nEse dia lo recordare siempre porque fue el inicio de nuestra tan bonita historia,,,,,,", 
                 img: "https://i.postimg.cc/50XDy54F/Whats-App-Image-2026-05-20-at-1-50-51-PM.jpg" 
             },
             { 
@@ -207,7 +185,7 @@
             },
             { 
                 titulo: "PRIMERA CAMINATA", 
-                texto: "como olvidar cuando caminamos por primera vez mi amor, ese dia desde el inicio ya se veia hermoso, el cielo y el amanecer fue bellisimo.\n\nRecuerdo que me ganaban los nervios al salir del colegio me puse a pensar en que te diria, en que cosas haria o que cosas hablariamos, pero tambien tenia en mente dejarte plantada, no acercarme y que te quedes ahi... pero no paso, me dije que porfin podria hablar con calma con la chica que me gusta y fui.\n\nNo sabia como saludarte, estabas volteada y deje el miedo de lado y puse mis manos en tus hombros, tu volteaste y sentia que veia a un angel, me gustaste mas... escuchar tu voz de cerca se sintio como una melodia.\n\nEse dia caminamos escuchando musica pero desde medio camino, ese dia fue hermosisimo pero me quede sin temas de conversacion, no sabia que mas hablar, estaba nervioso y mi corazon se acelero a mil.\n\nEsa vez que caminamos aun no estaba con lentes y no entiendo como no te di asquito om, bueno estaba todo muy bonito, verte, hablarte todo fue maravilloso y muy unico, jamas olvidare ese primer dia, fue uno de los mejooooress.", 
+                texto: "como olvidar cuando caminamos por primera vez mi amor, ese dia desde el inicio ya se veia hermoso, el cielo y el amanecer fue bellisimo.\n\nRecuerdo que me ganaban los nervios al salir del colegio me puse a pensar en que te diria, in que cosas haria o que cosas hablariamos, pero tambien tenia en mente dejarte plantada, no acercarme y que te quedes ahi... pero no paso, me dije que porfin podria hablar con calma con la chica que me gusta y fui.\n\nNo sabia como saludarte, estabas volteada y deje el miedo de lado y puse mis manos en tus hombros, tu volteaste y sentia que veia a un angel, me gustaste mas... escuchar tu voz de cerca se sintio como una melodia.\n\nEse dia caminamos escuchando musica pero desde medio camino, ese dia fue hermosisimo pero me quede sin temas de conversacion, no sabia que mas hablar, estaba nervioso y mi corazon se acelerero a mil.\n\nEsa vez que caminamos aun no estaba con lentes y no entiendo como no te di asquito om, bueno estaba todo muy bonito, verte, hablarte todo fue maravilloso y muy unico, jamas olvidare ese primer dia, fue uno de los mejooooress.", 
                 img: "https://i.postimg.cc/3wkkBR35/Whats-App-Image-2026-05-20-at-2-15-40-PM.jpg" 
             },
             { 
@@ -230,7 +208,11 @@
                 texto: "mi amooorr recuerdo este dia xq estaba con un cielo nublado hermoso, como te decia que era gracias a mi porque soy muy pro, y cuando soleaba te hechaba la culpa ajajsajhd.\n\nAy mi amor eres mi mascotita linda, me gusta cuando me das la patita y vamos asi por todo el camino, ese dia estaba que intentaba tomarte fotos y tu no te dejabas om, mocosa malcriada te amoooo.\n\nEres la mejor y ese dia fue muy divertido mas que todo porque te acercabas a mi para quitarme el celular, y bueno me gustaba tenerte cerca de mi sentirte mas cerca.\n\nTe amo muchito y ahora que me doy cuenta cada una de estas cosas nos ayudo a ser pareja, jamas hubiese imaginado hacer esto contigo y despues de 5 años puedo hacerlo que bien se sienteee.", 
                 img: "https://i.postimg.cc/KcLSSy07/Whats-App-Image-2026-05-20-at-2-46-18-PM.jpg" 
             },
-            
+            {
+                titulo: "UN VIDEO PARA TI", 
+                texto: "", // Al dejarlo vacío, el sistema sabe que no debe mostrar textos ni máquina de escribir
+                img: "https://drive.google.com/file/d/1uvRJN0IW4057_GsNkChim-8V64N7uoRQ/preview" // Link de tu Drive transformador para reproducción
+            }
         ];
 
         // =================================================================
@@ -253,7 +235,16 @@
             misCartas.forEach((carta, index) => {
                 const card = document.createElement('div');
                 card.className = 'sobre-card';
-                if(carta.img && carta.img.trim() !== "") card.style.backgroundImage = `url('${carta.img}')`;
+                
+                const esVideoDrive = carta.img && carta.img.includes('drive.google.com');
+                const esVideoMp4 = carta.img && carta.img.toLowerCase().endsWith('.mp4');
+                
+                if(carta.img && carta.img.trim() !== "" && !esVideoMp4 && !esVideoDrive) {
+                    card.style.backgroundImage = `url('${carta.img}')`;
+                } else {
+                    card.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
+                }
+
                 card.innerHTML = `
                     <div class="sobre-view" onclick="iniciarRevelacion(${index})">
                         <div class="sobre-content-overlay"><div class="sobre-titulo">${carta.titulo}</div></div>
@@ -267,6 +258,9 @@
             const carta = misCartas[index];
             const escenario = document.getElementById('escenarioRevelacion');
             const imgElement = document.getElementById('revelarImagen');
+            const vidElement = document.getElementById('revelarVideo');
+            const frameContenedor = document.getElementById('revelarFrameContenedor');
+            const frameElement = document.getElementById('revelarFrame');
             const textoElement = document.getElementById('textoEfectoMaquina');
             const btnCerrar = document.getElementById('btnCerrarRev');
 
@@ -277,38 +271,70 @@
             btnCerrar.classList.remove('mostrar');
             clearInterval(typingInterval);
 
-            if(carta.img && carta.img.trim() !== "") {
+            // Limpieza previa
+            imgElement.style.display = "none";
+            imgElement.classList.remove('animar');
+            vidElement.style.display = "none";
+            vidElement.classList.remove('animar');
+            vidElement.pause();
+            vidElement.src = "";
+            frameContenedor.style.display = "none";
+            frameContenedor.classList.remove('animar');
+            frameElement.src = "";
+
+            const esVideoMp4 = carta.img && carta.img.toLowerCase().endsWith('.mp4');
+            const esVideoDrive = carta.img && carta.img.includes('drive.google.com');
+            const esSoloVideo = (esVideoMp4 || esVideoDrive) && (!carta.texto || carta.texto.trim() === "");
+
+            if (esVideoMp4) {
+                vidElement.src = carta.img;
+                vidElement.style.display = "block";
+                setTimeout(() => vidElement.classList.add('animar'), 100);
+                vidElement.play().catch(e => console.log("Play prevenido"));
+            } else if (esVideoDrive) {
+                frameElement.src = carta.img;
+                frameContenedor.style.display = "block";
+                setTimeout(() => frameContenedor.classList.add('animar'), 100);
+            } else if (carta.img && carta.img.trim() !== "") {
                 imgElement.src = carta.img;
                 imgElement.style.display = "block";
                 setTimeout(() => imgElement.classList.add('animar'), 100);
-            } else {
-                imgElement.style.display = "none";
             }
 
-            let i = 0;
-            const mensaje = carta.texto;
-            
-            setTimeout(() => {
-                typingInterval = setInterval(() => {
-                    if (i < mensaje.length) {
-                        textoElement.textContent += mensaje.charAt(i);
-                        i++;
-                        if(escenario.scrollHeight > escenario.clientHeight) {
-                            escenario.scrollTop = escenario.scrollHeight;
+            if (esSoloVideo) {
+                textoElement.style.display = "none";
+                btnCerrar.classList.add('mostrar');
+            } else {
+                textoElement.style.display = "block";
+                let i = 0;
+                const mensaje = carta.texto || "";
+                
+                setTimeout(() => {
+                    typingInterval = setInterval(() => {
+                        if (i < mensaje.length) {
+                            textoElement.textContent += mensaje.charAt(i);
+                            i++;
+                            if(escenario.scrollHeight > escenario.clientHeight) {
+                                escenario.scrollTop = escenario.scrollHeight;
+                            }
+                        } else {
+                            clearInterval(typingInterval);
+                            btnCerrar.classList.add('mostrar');
                         }
-                    } else {
-                        clearInterval(typingInterval);
-                        btnCerrar.classList.add('mostrar');
-                    }
-                }, 15); // ⚡ Velocidad de las letras (15 milisegundos)
-            }, 800);
+                    }, 15);
+                }, 800);
+            }
         }
 
         function cerrarRevelacion() {
             clearInterval(typingInterval);
+            document.getElementById('revelarVideo').pause();
+            document.getElementById('revelarFrame').src = "";
             document.body.classList.remove('revelacion-activa');
             document.getElementById('escenarioRevelacion').classList.remove('mostrar');
             document.getElementById('revelarImagen').classList.remove('animar');
+            document.getElementById('revelarVideo').classList.remove('animar');
+            document.getElementById('revelarFrameContenedor').classList.remove('animar');
             document.getElementById('textoEfectoMaquina').textContent = "";
         }
 
@@ -324,7 +350,7 @@
             document.getElementById('contador').innerHTML = `Juntos desde hace: ${d}d ${h}h ${m}m ${s}s`;
         }, 1000);
 
-        // Lluvia de corazones roja
+        // Lluvia de corazones blanca
         setInterval(() => {
             if(document.body.classList.contains('revelacion-activa')) return;
             const heart = document.createElement('div');
