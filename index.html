@@ -108,7 +108,7 @@
         .img-revelada, .vid-revelado { max-width: 90%; max-height: 45vh; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); opacity: 0; transform: scale(0.95); transition: all 1s ease 0.5s; display: none; }
         .img-revelada.animar, .vid-revelado.animar { opacity: 1; transform: scale(1); display: block; }
 
-        /* Contenedor adaptado para pantallas incrustadas (Drive/YouTube) */
+        /* Contenedor adaptado para pantallas incrustadas (YouTube/Drive) */
         .frame-contenedor { width: 100%; max-width: 540px; height: 320px; border-radius: 15px; overflow: hidden; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); opacity: 0; transform: scale(0.95); transition: all 1s ease 0.5s; }
         .frame-contenedor.animar { display: block; opacity: 1; transform: scale(1); }
         .frame-contenedor iframe { width: 100%; height: 100%; border: none; }
@@ -135,7 +135,7 @@
             <img src="" id="revelarImagen" class="img-revelada">
             <video id="revelarVideo" class="vid-revelado" controls></video>
             <div id="revelarFrameContenedor" class="frame-contenedor">
-                <iframe src="" id="revelarFrame" allow="autoplay"></iframe>
+                <iframe src="" id="revelarFrame" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             </div>
             <div id="textoEfectoMaquina" class="texto-maquina"></div>
             <button class="btn-cerrar-revelacion" id="btnCerrarRev" onclick="cerrarRevelacion()">Volver al Mural</button>
@@ -150,12 +150,12 @@
         const misCartas = [
             { 
                 titulo: "DESDE QUE TE VIII", 
-                texto: "Mi amooor recuerdas como fue el primer dia que nos vimos?? recuerdas ese 24/03/2023?? se que antes nos vimos pero sin tanta importancia...pero ahora que lo pienso bien la primera vez que te vi y senti algo por ti fue ese dia fue un viernes donde estaba todo sudado xq tenia ept y jugue futbol con el uniforme... ese dia recuerdo que deseaba que tu vivieras cerca de mi casa, deseaba que estuvieras aunque sea un poco cerca, recuerdo que cuando te bajaste enfrente de tu casa me gano la alegria, xq sabia que te veria mas veces, sabia que bajarias en los carros del sillar, sabia que no subirias en los Royal, sabia que tendria aunque sea la minima oportunidad de apreciarte, me sentia ganador aun sin haber ganado... desde ese dia intente de todo por verte de nuevo, hize cosas vergonzosas que no me importaron xq el objetivo era mejor, eras tu.", 
+                texto: "Mi amooor recuerdas como fue el primer dia que nos vimos?? recuerdas ese 24/03/2023?? se que antes nos vimos pero sin tanta importancia...pero ahora que lo pienso bien la primera vez que te vi y senti algo por ti fue ese dia fue un viernes donde estaba todo sudado xq tenia ept y jugue futbol con el uniforme... ese dia recuerdo que deseaba que tu vivieras cerca de mi casa, deseaba que estuvieras aunque sea un poco cerca, recuerdo que cuando te bajaste enfrente de tu casa me gano la alegria, xq sabia que te veria mas veces, sabia que bajarias en los carros del sillar, sabia que no subirias in los Royal, sabia que tendria aunque sea la minima oportunidad de apreciarte, me sentia ganador aun sin haber ganado... desde ese dia intente de todo por verte de nuevo, hize cosas vergonzosas que no me importaron xq el objetivo era mejor, eras tu.", 
                 img: "https://i.postimg.cc/MGX2PRkw/1Y.jpg" 
             },
             { 
                 titulo: "LAS COSAS QUE HIZE/HICIMOS", 
-                texto: "Amorcitoooo como te conte esa vez in la llamada llegue a hacer demasiadas cosas para poder verte aunque sea por poco tiempo, te las enumero para que las leas en orden:\n\n1. Bueno primeramente llegue a pedir tu horario para saber a que hora entrabas y a que hora salias, aunque como tu me dijiste ese horaro fue de invierno cuando entrabas tarde y jshajkdha que risaaaa\n2. Cuando super tu hora de salida me hiba al puente o al mall para pasar el rato y llegar a tiempo para verte recuerdo que solo lo hacia para tomar el carro vacio\n3. Tambien en las mañanas esperaba el A1(carro naranja) xq sabia que tu hibas en ese carro en la mañana y queria tambien verte por las mañanas y no me importaba si llegaba tarde xq valia completamente la pena verte\n4. llegue a grabarme los dias que hibas con buso para nose que pero lo hize xq me daban ganas\n5. imaginaba que te hablaba o bueno creaba escenarios donde hablabamosss\n6. recuerdo que sabia que te sentabas en esos asientos detras de el conductor y me sentaba en la segunda fila para verte jshdajdh y odiaba a los carros que no tenian esos asientos detras del conductor porque no te podria ver, tambien me molestaba cuando te sentabas en la parte de adelante\n7. me gustaba cuando por azares del destino nos llegabamos a sentar juntos era como algo bonito que sentia que era muy unicoo\n8. tambien una vez llegue a hacer parar el carro cuando veia que venias, el carro se hiba con dos asientos vacios y le dije a el conductor que te esperara jajajas ahi si se me fue la timidez om\n9. Recuerdo que tu eras lo que siempre quize, deseaba...anhelaba algun dia hablarte y concoerte mejor queria que fueras mi pareja y ahora...ahora lo somos\n10. When te pedi un sol y no te lo devolvi por muuucho tiempo, esa vez me latia el corazon a mil y no sabia ni que decirte, estaba nerviosisimooo, pedirte ese sol y no devolvertelo fue algo planeado por el destino.. yo sabia que tenia plata pero verte en el A1 sola en la parte de atras en una tarde soleada... el carro vacio y advancing lento, sabia que esa era mi oportunidad y no la desaproveche, ese dia perdi un poco de todo mi miedo, joder lo recuerdoo lo recuerdo como algo bonito jsjdadjh\n11. te amo muchooo y recuerdo cuando me contaste que tambien hiciste muchas cosas para que nos veamos como que tambien aveces te demorabas y sabias que carro tomar para que nos encontremos, eso me recuerda a que dijiste que grababas videos despues de cada vez que nos veiamos JAJASJA bueno no lo niego yo cantaba canciones y me imaginaba cantandotelas jashsahjsa, AMORCITOO TE AMO MUCHOTEEE Y ERES LA MEJORRR, TE AMO MI NIÑA PRECIOSA", 
+                texto: "Amorcitoooo como te conte esa vez in la llamada llegue a hacer demasiadas cosas para poder verte aunque sea por poco tiempo, te las enumero para que las leas en orden:\n\n1. Bueno primeramente llegue a pedir tu horario para saber a que hora entrabas y a que hora salias, aunque como tu me dijiste ese horaro fue de invierno cuando entrabas tarde y jshajkdha que risaaaa\n2. Cuando super tu hora de salida me hiba al puente o al mall para pasar el rato y llegar a tiempo para verte recuerdo que solo lo hacia para tomar el carro vacio\n3. Tambien en las mañanas esperaba el A1(carro naranja) xq sabia que tu hibas in ese carro en la mañana y queria tambien verte por las mañanas y no me importaba si llegaba tarde xq valia completamente la pena verte\n4. llegue a grabarme los dias que hibas con buso para nose que pero lo hize xq me daban ganas\n5. imaginaba que te hablaba o bueno creaba escenarios donde hablabamosss\n6. recuerdo que sabia que te sentabas en esos asientos detras de el conductor y me sentaba en la segunda fila para verte jshdajdh y odiaba a los carros que no tenian esos asientos detras del conductor porque no te podria ver, tambien me molestaba cuando te sentabas en la parte de adelante\n7. me gustaba cuando por azares del destino nos llegabamos a sentar juntos era como algo bonito que sentia que era muy unicoo\n8. tambien una vez llegue a hacer parar el carro cuando veia que venias, el carro se hiba con dos asientos vacios y le dije a el conductor que te esperara jajajas ahi si se me fue la timidez om\n9. Recuerdo que tu eras lo que siempre quize, deseaba...anhelaba algun dia hablarte y concoerte mejor queria que fueras mi pareja y ahora...ahora lo somos\n10. When te pedi un sol y no te lo devolvi por muuucho tiempo, esa vez me latia el corazon a mil y no sabia ni que decirte, estaba nerviosisimooo, pedirte ese sol y no devolvertelo fue algo planeado por el destino.. yo sabia que tenia plata pero verte en el A1 sola en la parte de atras en una tarde soleada... el carro vacio y advancing lento, sabia que esa era mi oportunidad y no la desaproveche, ese dia perdi un poco de todo mi miedo, joder lo recuerdoo lo recuerdo como algo bonito jsjdadjh\n11. te amo muchooo y recuerdo cuando me contaste que tambien hiciste muchas cosas para que nos veamos como que tambien aveces te demorabas y sabias que carro tomar para que nos encontremos, eso me recuerda a que dijiste que grababas videos despues de cada vez que nos veiamos JAJASJA bueno no lo niego yo cantaba canciones y me imaginaba cantandotelas jashsahjsa, AMORCITOO TE AMO MUCHOTEEE Y ERES LA MEJORRR, TE AMO MI NIÑA PRECIOSA", 
                 img: "https://i.postimg.cc/jqBHLrdV/Whats-App-Image-2026-05-19-at-11-10-50-PM.jpg" 
             },
             { 
@@ -210,8 +210,9 @@
             },
             {
                 titulo: "UN VIDEO PARA TI", 
-                texto: "", // Al dejarlo vacío, el sistema sabe que no debe mostrar textos ni máquina de escribir
-                img: "https://drive.google.com/file/d/1uvRJN0IW4057_GsNkChim-8V64N7uoRQ/preview" // Link de tu Drive transformador para reproducción
+                texto: "", 
+                videoUrl: "https://www.youtube.com/embed/tkyncdjkeDQ", 
+                img: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600&auto=format&fit=crop" // PORTADA: Un hermoso corazón artístico con destellos románticos
             }
         ];
 
@@ -236,10 +237,7 @@
                 const card = document.createElement('div');
                 card.className = 'sobre-card';
                 
-                const esVideoDrive = carta.img && carta.img.includes('drive.google.com');
-                const esVideoMp4 = carta.img && carta.img.toLowerCase().endsWith('.mp4');
-                
-                if(carta.img && carta.img.trim() !== "" && !esVideoMp4 && !esVideoDrive) {
+                if(carta.img && carta.img.trim() !== "") {
                     card.style.backgroundImage = `url('${carta.img}')`;
                 } else {
                     card.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
@@ -271,7 +269,7 @@
             btnCerrar.classList.remove('mostrar');
             clearInterval(typingInterval);
 
-            // Limpieza previa
+            // Reset multimedia
             imgElement.style.display = "none";
             imgElement.classList.remove('animar');
             vidElement.style.display = "none";
@@ -282,17 +280,23 @@
             frameContenedor.classList.remove('animar');
             frameElement.src = "";
 
-            const esVideoMp4 = carta.img && carta.img.toLowerCase().endsWith('.mp4');
-            const esVideoDrive = carta.img && carta.img.includes('drive.google.com');
-            const esSoloVideo = (esVideoMp4 || esVideoDrive) && (!carta.texto || carta.texto.trim() === "");
+            // Lógica inteligente de detección de contenidos
+            const urlMultimedia = carta.videoUrl || carta.img;
+            const esVideoMp4 = urlMultimedia && urlMultimedia.toLowerCase().endsWith('.mp4');
+            const esVideoEmbed = urlMultimedia && (urlMultimedia.includes('youtube.com') || urlMultimedia.includes('drive.google.com'));
+            const esSoloVideo = (esVideoMp4 || esVideoEmbed) && (!carta.texto || carta.texto.trim() === "");
 
             if (esVideoMp4) {
-                vidElement.src = carta.img;
+                vidElement.src = urlMultimedia;
                 vidElement.style.display = "block";
                 setTimeout(() => vidElement.classList.add('animar'), 100);
                 vidElement.play().catch(e => console.log("Play prevenido"));
-            } else if (esVideoDrive) {
-                frameElement.src = carta.img;
+            } else if (esVideoEmbed) {
+                let urlFinal = urlMultimedia;
+                if(urlFinal.includes('youtube.com')) {
+                    urlFinal += urlFinal.includes('?') ? '&autoplay=1' : '?autoplay=1';
+                }
+                frameElement.src = urlFinal;
                 frameContenedor.style.display = "block";
                 setTimeout(() => frameContenedor.classList.add('animar'), 100);
             } else if (carta.img && carta.img.trim() !== "") {
